@@ -1,30 +1,29 @@
-/****************************************************************************
+/*
+ *************************************************************************
  * Ralink Tech Inc.
- * 4F, No. 2 Technology 5th Rd.
- * Science-based Industrial Park
- * Hsin-chu, Taiwan, R.O.C.
- * (c) Copyright 2002, Ralink Technology, Inc.
+ * 5F., No.36, Taiyuan St., Jhubei City,
+ * Hsinchu County 302,
+ * Taiwan, R.O.C.
  *
- * All rights reserved. Ralink's source code is an unpublished work and the
- * use of a copyright notice does not imply otherwise. This source code
- * contains confidential trade secret material of Ralink Tech. Any attemp
- * or participation in deciphering, decoding, reverse engineering or in any
- * way altering the source code is stricitly prohibited, unless the prior
- * written consent of Ralink Technology, Inc. is obtained.
- ****************************************************************************
- 
-    Module Name:
-    bg_ftph.c
- 
-    Abstract:
-    Provide fast path between LAN and WLAN.
- 
-    Revision History:
-    Who         When          What
-    --------    ----------    ----------------------------------------------
-    Sample Lin	01-22-2008    Created
+ * (c) Copyright 2002-2010, Ralink Technology, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify  *
+ * it under the terms of the GNU General Public License as published by  *
+ * the Free Software Foundation; either version 2 of the License, or     *
+ * (at your option) any later version.                                   *
+ *                                                                       *
+ * This program is distributed in the hope that it will be useful,       *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ * GNU General Public License for more details.                          *
+ *                                                                       *
+ * You should have received a copy of the GNU General Public License     *
+ * along with this program; if not, write to the                         *
+ * Free Software Foundation, Inc.,                                       *
+ * 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *                                                                       *
+ *************************************************************************/
 
- */
 
 #include "rt_config.h"
 
@@ -50,7 +49,7 @@
 
 		if (HandRst != 0)
 		{
-			// pass the packet to upper layer
+			/* pass the packet to upper layer */
 			skb->protocol = eth_type_trans(skb, skb->dev);
 			netif_rx(skb);
 		}
@@ -63,7 +62,7 @@ UINT32 BG_FTPH_PacketFromApHandle(
 extern UINT32 (*RALINK_FP_Handle)(PNDIS_PACKET pPacket);
 #else
 UINT32 (*RALINK_FP_Handle)(PNDIS_PACKET pPacket);
-#endif // BG_FT_OPEN_SUPPORT //
+#endif /* BG_FT_OPEN_SUPPORT */
 
 
 
@@ -112,14 +111,15 @@ VOID BG_FTPH_Remove(VOID)
 } /* End of BG_FTPH_Init */
 
 
+
+
 /*
 ========================================================================
 Routine Description:
-	Pass the packet to the port directly or bridge layer.
+	Forward the received packet.
 
 Arguments:
-	pAd				- WLAN control block pointer
-	skb_p			- the received packet
+	pPacket			- the received packet
 
 Return Value:
 	None
@@ -127,13 +127,6 @@ Return Value:
 Note:
 ========================================================================
 */
-static inline unsigned packet_length(const struct sk_buff *skb)
-{
-#define VLAN_HLEN	4
-	return skb->len - (skb->protocol == htons(ETH_P_8021Q) ? VLAN_HLEN : 0);
-}
-
-
 UINT32 BG_FTPH_PacketFromApHandle(
 	IN		PNDIS_PACKET	pPacket)
 {
@@ -195,7 +188,7 @@ LabelPassToUpperLayer:
 } /* End of BG_FTPH_PacketFromApHandle */
 
 
-#endif // CONFIG_BRIDGE || CONFIG_BRIDGE_MODULE //
-#endif // BG_FT_SUPPORT //
+#endif /* CONFIG_BRIDGE || CONFIG_BRIDGE_MODULE */
+#endif /* BG_FT_SUPPORT */
 
 /* End of bg_ftph.c */
