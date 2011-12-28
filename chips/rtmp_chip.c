@@ -466,9 +466,10 @@ VOID RtmpChipOpsHook(
 
 	if (IS_RT30xx(pAd))
 	{
+	/* Commented lines for RT3070STA	
 		if (IS_RT3390(pAd))
-			RT33xx_Init(pAd);
-		else
+			//RT33xx_Init(pAd);
+		else*/
 			RT30xx_Init(pAd);
 	}
 #endif /* RT30xx */

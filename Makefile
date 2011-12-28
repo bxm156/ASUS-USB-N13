@@ -9,7 +9,7 @@ TARGET = LINUX
 endif
 
 ifeq ($(CHIPSET),)
-CHIPSET = 5370
+CHIPSET = 3070
 endif
 
 #OS ABL - YES or NO
